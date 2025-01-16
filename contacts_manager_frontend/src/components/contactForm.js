@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { addContact } from '../api/contactApi';
+import { TextField, Button, Box } from '@mui/material';
+
 
 const ContactForm = ({ onAdd }) => {
     const [name, setName] = useState('');
@@ -14,11 +16,28 @@ const ContactForm = ({ onAdd }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" required />
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-            <button type="submit">Add</button>
-        </form>
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', gap: 2, mb: 4 }}>
+            <TextField
+                label="Name"
+                variant="outlined"
+                fullWidth
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+            />
+            <TextField
+                label="Email"
+                type="email"
+                variant="outlined"
+                fullWidth
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+            />
+            <Button type="submit" variant="contained" color="primary">
+                Add Contact
+            </Button>
+        </Box>
     );
 };
 

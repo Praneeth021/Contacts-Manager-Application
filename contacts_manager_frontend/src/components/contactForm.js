@@ -9,8 +9,7 @@ const ContactForm = ({ onAdd }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await addContact({ name, email });
-        onAdd();
+        onAdd({name,email});
         setName('');
         setEmail('');
     };

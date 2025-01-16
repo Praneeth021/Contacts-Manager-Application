@@ -32,13 +32,13 @@ The Contact Manager application is a full-stack application for managing contact
 ### Clone the Repository
 ```bash
 git clone <repository-url>
-cd contact-manager
+cd Contacts Manager Application
 ```
 
 ### Backend Setup
 1. Navigate to the backend directory:
    ```bash
-   cd backend
+   cd contacts_manager_backend
    ```
 
 2. Install dependencies:
@@ -60,7 +60,7 @@ cd contact-manager
 ### Frontend Setup
 1. Navigate to the frontend directory:
    ```bash
-   cd frontend
+   cd contacts_manager_frontend
    ```
 
 2. Install dependencies:

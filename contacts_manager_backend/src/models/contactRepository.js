@@ -21,6 +21,16 @@ class ContactRepository {
         );
     }
 
+
+    /**
+     * Check if an email already exists in the database.
+     * @param {string} email - The email to check.
+     * @param {Function} callback - Callback function to handle the result.
+     */
+    isEmailDuplicate(email, callback) {
+        this.db.get('SELECT * FROM contacts WHERE email = ?', [email], callback);
+    }
+
     /**
      * Retrieve all contacts from the database.
      * @param {Function} callback - Callback function to handle the result.

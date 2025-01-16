@@ -14,16 +14,43 @@ class ContactController {
      */
     addContact(req, res) {
         const { name, email } = req.body;
+    
+        // Log incoming request
+        console.log(`Received request to add contact: ${JSON.stringify({ name, email })}`);
+    
         if (!name || !email) {
+            console.log('Validation failed: Name and Email are required.');
             return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Name and Email are required.' });
         }
-        this.contactRepository.addContact({ name, email }, (err) => {
+    
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            console.log(`Validation failed: Invalid email format for email: ${email}`);
+            return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Invalid email format.' });
+        }
+    
+        this.contactRepository.isEmailDuplicate(email, (err, row) => {
             if (err) {
-                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Error adding contact.', error: err.message });
+                console.error(`Database error during duplicate check: ${err.message}`);
+                return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Error checking email.', error: err.message });
             }
-            res.status(HttpStatus.CREATED).json({ message: 'Contact added successfully.' });
+    
+            if (row) {
+                console.log(`Duplicate email found: ${email}`);
+                return res.status(HttpStatus.CONFLICT).json({ message: 'Duplicate entry. Email already exists.' });
+            }
+    
+            this.contactRepository.addContact({ name, email }, (err) => {
+                if (err) {
+                    console.error(`Database error during insert: ${err.message}`);
+                    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Error adding contact.', error: err.message });
+                }
+                console.log(`Successfully added contact: ${name}, ${email}`);
+                res.status(HttpStatus.CREATED).json({ message: 'Contact added successfully.' });
+            });
         });
     }
+    
 
     /**
      * Get all contacts.

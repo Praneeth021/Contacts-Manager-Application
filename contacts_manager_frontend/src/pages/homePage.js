@@ -4,6 +4,8 @@ import ContactForm from '../components/contactForm';
 import ContactList from '../components/contactList';
 import SearchBar from '../components/searchBar';
 
+import { Container, Typography } from '@mui/material';
+
 const HomePage = () => {
     const [contacts, setContacts] = useState([]);
 
@@ -27,12 +29,14 @@ const HomePage = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Contact Manager</h1>
+        <Container maxWidth="sm" sx={{ mt: 4 }}>
+            <Typography variant="h4" align="center" gutterBottom>
+                Contact Manager
+            </Typography>
             <ContactForm onAdd={fetchContacts} />
             <SearchBar onSearch={handleSearch} />
             <ContactList contacts={contacts} onDelete={handleDelete} />
-        </div>
+        </Container>
     );
 };
 
